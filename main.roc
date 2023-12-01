@@ -91,3 +91,11 @@ expect
     out = multilineWithWords "two1nine\neightwothree\nabcone2threexyz\nxtwone3four\n4nineeightseven2\nzoneight234\n7pqrstsixteen"
     
     out == 281
+
+expect 
+    out = "two1nine\neightwothree\nabcone2threexyz\nxtwone3four\n4nineeightseven2\nzoneight234\n7pqrstsixteen"
+
+        |> Str.split "\n"
+        |> List.map lineWithWords
+    
+    out == [29, 83, 13, 24, 42, 14, 76]
