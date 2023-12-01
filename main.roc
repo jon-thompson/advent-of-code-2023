@@ -72,16 +72,20 @@ lineWithWords = \str ->
 replaceDigitNames : Str -> Str
 replaceDigitNames = \str ->
     str
-        |> Str.replaceEach "zero" "0"
-        |> Str.replaceEach "one" "1"
-        |> Str.replaceEach "two" "2"
-        |> Str.replaceEach "three" "3"
-        |> Str.replaceEach "four" "4"
-        |> Str.replaceEach "five" "5"
-        |> Str.replaceEach "six" "6"
-        |> Str.replaceEach "seven" "7"
-        |> Str.replaceEach "eight" "8"
-        |> Str.replaceEach "nine" "9"
+        |> Str.replaceFirst "one" "1"
+        |> Str.replaceFirst "two" "2"
+        |> Str.replaceFirst "three" "3"
+        |> Str.replaceFirst "four" "4"
+        |> Str.replaceFirst "five" "5"
+        |> Str.replaceFirst "six" "6"
+        |> Str.replaceFirst "seven" "7"
+        |> Str.replaceFirst "eight" "8"
+        |> Str.replaceFirst "nine" "9"
+
+expect
+    out = lineWithWords "eighthree"
+
+    out == 83
 
 expect 
     out = lineWithWords "two1nine"
