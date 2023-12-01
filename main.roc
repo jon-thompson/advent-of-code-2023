@@ -62,6 +62,13 @@ lineWithWords : Str -> U128
 lineWithWords = \str ->
     # Replace digit names with digit
     str
+        |> replaceDigitNames
+        |> line
+
+
+replaceDigitNames : Str -> Str
+replaceDigitNames = \str ->
+    str
         |> Str.replaceEach "zero" "0"
         |> Str.replaceEach "one" "1"
         |> Str.replaceEach "two" "2"
@@ -72,8 +79,6 @@ lineWithWords = \str ->
         |> Str.replaceEach "seven" "7"
         |> Str.replaceEach "eight" "8"
         |> Str.replaceEach "nine" "9"
-        |> line
-
 
 expect 
     out = lineWithWords "two1nine"
