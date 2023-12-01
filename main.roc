@@ -12,7 +12,15 @@ main =
 
 line : Str -> U8
 line = \str ->
-    12
+    chars = Str.graphemes str
+
+    digits = List.keepOks chars Str.toU8
+
+    first = List.first digits |> Result.withDefault 0
+
+    last = List.last digits |> Result.withDefault 0
+
+    first * 10 + last
 
 expect
     out = line "1abc2"
