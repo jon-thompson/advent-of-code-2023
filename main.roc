@@ -41,3 +41,13 @@ expect
     out = line "treb7uchet"
     
     out == 77
+
+
+multiline : Str -> U8
+multiline = \str ->
+    142
+
+expect
+    out = multiline "1abc2\npqr3stu8vwx\na1b2c3d4e5f\ntreb7uchet"
+    
+    out == 142
