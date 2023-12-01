@@ -31,3 +31,13 @@ expect
     out = line "pqr3stu8vwx"
     
     out == 38
+
+expect
+    out = line "a1b2c3d4e5f"
+    
+    out == 15
+
+expect
+    out = line "treb7uchet"
+    
+    out == 77
