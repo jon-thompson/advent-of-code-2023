@@ -60,16 +60,11 @@ expect
 
 lineWithWords : Str -> U128
 lineWithWords = \str ->
-    
-      Str.walkUtf8 str "" (\state, byte ->
-            Str.concat state (
-                when Str.fromUtf8 [byte] is
-                    Ok s -> s
-
-                    Err _ -> ""
-                    
-                )
-            |> replaceDigitNames
+    str
+        |> Str.graphemes
+        |> List.walk "" (\char, s -> 
+            Str.concat char s
+                |> replaceDigitNames
         )
         |> line
 
