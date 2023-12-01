@@ -79,3 +79,15 @@ expect
     out = lineWithWords "two1nine"
     
     out == 29
+
+multilineWithWords : Str -> U128
+multilineWithWords = \str ->
+    str
+        |> Str.split "\n"
+        |> List.map lineWithWords
+        |> List.sum
+
+expect 
+    out = multilineWithWords "two1nine\neightwothree\nabcone2threexyz\nxtwone3four\n4nineeightseven2\nzoneight234\n7pqrstsixteen"
+    
+    out == 281
