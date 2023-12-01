@@ -5,3 +5,16 @@ app "hello"
 
 main =
     Stdout.line "I'm a Roc application!"
+
+
+
+# Day 1
+
+line : Str -> U8
+line = \str ->
+    12
+
+expect
+    out = line "1abc2"
+    
+    out == 12
