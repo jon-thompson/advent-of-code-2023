@@ -45,7 +45,11 @@ expect
 
 multiline : Str -> U8
 multiline = \str ->
-    142
+    str
+        |> Str.split "\n"
+        |> List.map line
+        |> List.sum
+
 
 expect
     out = multiline "1abc2\npqr3stu8vwx\na1b2c3d4e5f\ntreb7uchet"
