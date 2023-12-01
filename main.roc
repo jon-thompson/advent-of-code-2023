@@ -26,3 +26,8 @@ expect
     out = line "1abc2"
     
     out == 12
+
+expect
+    out = line "pqr3stu8vwx"
+    
+    out == 38
