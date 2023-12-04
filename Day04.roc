@@ -26,7 +26,12 @@ scoreCard = \str ->
         card.have
             |> List.countIf (\n -> List.contains card.winning n)
 
-    Num.powInt 2 (winning - 1)
+    
+
+    if winning == 0 then
+        0
+    else
+        Num.powInt 2 (winning - 1)
 
 
 parseCard : Str -> Card
@@ -66,6 +71,35 @@ expect
     out = scoreCard "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53"
 
     out == 8
+
+expect
+    out = scoreCard "Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19"
+
+    out == 2
+
+expect
+    out = scoreCard "Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1"
+
+    out == 2
+
+expect
+    out = scoreCard "Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83"
+
+    out == 1
+
+expect
+    card = parseCard "Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36"
+
+    winning =
+        card.have
+            |> List.countIf (\n -> List.contains card.winning n)
+
+    winning == 0
+
+expect
+    out = scoreCard "Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36"
+
+    out == 0
 
 expect
     out = scoreCards sample
