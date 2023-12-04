@@ -20,7 +20,7 @@ parseCard = \str ->
 
     { winning:
         numbers
-            |> List.get 0
+            |> List.first
             |> Result.map (\s ->
                 s
                     |> Str.split " "
@@ -30,7 +30,15 @@ parseCard = \str ->
             )
             |> Result.withDefault []
 
-    , have: [] }
+    , have: 
+        numbers
+            |> List.last
+            |> Result.map (\s ->
+                s
+                    |> Str.split " "
+                    |> List.keepOks Str.toNat
+            )
+            |> Result.withDefault [] }
 
 
 expect
