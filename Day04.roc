@@ -1,7 +1,9 @@
 app "hello"
     packages { pf: "https://github.com/roc-lang/basic-cli/releases/download/0.5.0/Cufzl36_SnJ4QbOoEmiJ5dIpUxBvdB3NEySvuH82Wio.tar.br" }
     imports [pf.Stdout
-    , "./Day04.txt" as input : Str]
+    , "./Day04.txt" as input : Str
+    , "./Day04sample.txt" as sample : Str
+    ]
     provides [main] to pf
 
 main =
@@ -9,6 +11,12 @@ main =
 
 
 Card : { winning: List Nat, have: List Nat }
+
+scoreCards = \str ->
+    str
+        |> Str.split "\n"
+        |> List.map scoreCard
+        |> List.sum
 
 scoreCard : Str -> Nat
 scoreCard = \str ->
@@ -58,3 +66,8 @@ expect
     out = scoreCard "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53"
 
     out == 8
+
+expect
+    out = scoreCards sample
+
+    out == 13
