@@ -20,18 +20,20 @@ scoreCards = \str ->
 
 scoreCard : Str -> Nat
 scoreCard = \str ->
-    card = parseCard str
-
-    winning =
-        card.have
-            |> List.countIf (\n -> List.contains card.winning n)
-
-    
+    winning = wins str
 
     if winning == 0 then
         0
     else
         Num.powInt 2 (winning - 1)
+
+
+wins : Str -> Nat
+wins = \str ->
+    card = parseCard str
+
+    card.have
+        |> List.countIf (\n -> List.contains card.winning n)
 
 
 parseCard : Str -> Card
@@ -111,3 +113,12 @@ expect
     out = scoreCards input
 
     out == 21485
+
+
+# Part 2
+
+expect
+    out = wins "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53"
+
+    out == 4
+
