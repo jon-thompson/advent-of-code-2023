@@ -122,3 +122,17 @@ expect
 
     out == 4
 
+
+# Walk thru list of cards, count how many have a winning number, tack on new cards from winners
+countCards : Str -> Nat
+countCards = \str ->
+    cards = str
+        |> Str.split "\n"
+        |> List.map parseCard
+
+    30
+
+expect
+    out = countCards sample
+
+    out == 30
