@@ -105,3 +105,9 @@ expect
     out = scoreCards sample
 
     out == 13
+
+# Part 1 test
+expect
+    out = scoreCards input
+
+    out == 21485
