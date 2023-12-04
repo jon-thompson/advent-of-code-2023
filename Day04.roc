@@ -21,24 +21,21 @@ parseCard = \str ->
     { winning:
         numbers
             |> List.first
-            |> Result.map (\s ->
-                s
-                    |> Str.split " "
-                    |> List.map (\n ->
-                        n |> Str.toNat |> Result.withDefault 0
-                    )
-            )
+            |> Result.map parseNumbers
             |> Result.withDefault []
 
     , have: 
         numbers
             |> List.last
-            |> Result.map (\s ->
-                s
-                    |> Str.split " "
-                    |> List.keepOks Str.toNat
-            )
+            |> Result.map parseNumbers
             |> Result.withDefault [] }
+
+
+parseNumbers : Str -> List Nat
+parseNumbers = \str ->
+    str
+        |> Str.split " "
+        |> List.keepOks Str.toNat
 
 
 expect
