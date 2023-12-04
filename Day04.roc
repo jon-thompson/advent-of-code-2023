@@ -12,7 +12,25 @@ Card : { winning: List Nat, have: List Nat }
 
 parseCard : Str -> Card
 parseCard = \str ->
-    { winning: [], have: [] }
+    numbers = str
+        |> Str.split ": "
+        |> List.last
+        |> Result.map (\s -> Str.split s " | ")
+        |> Result.withDefault []
+
+    { winning:
+        numbers
+            |> List.get 0
+            |> Result.map (\s ->
+                s
+                    |> Str.split " "
+                    |> List.map (\n ->
+                        n |> Str.toNat |> Result.withDefault 0
+                    )
+            )
+            |> Result.withDefault []
+
+    , have: [] }
 
 
 expect
