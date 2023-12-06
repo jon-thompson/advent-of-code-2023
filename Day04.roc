@@ -163,3 +163,8 @@ expect
     out = countCards sample
 
     out == 30
+
+expect
+    out = countCards input
+
+    out == 11024379
