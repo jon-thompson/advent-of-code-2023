@@ -75,3 +75,13 @@ expect
     out = countWaysToBeatRecord { time: 7, recordDistance: 9 }
 
     out == 4
+
+
+part1 : Str -> Nat
+part1 = \str ->
+    0
+
+expect 
+    out = part1 sample
+
+    out == 288
