@@ -93,3 +93,23 @@ expect
     out = part1 input
 
     out == 131376
+
+# Part 2
+
+
+parseSingleNumber : Str -> Nat
+parseSingleNumber = \str ->
+    str
+        |> Str.split ":"
+        |> List.last
+        |> Result.try (\numbersString ->
+            numbersString
+                |> Str.replaceEach " " ""
+                |> Str.toNat
+        )
+        |> Result.withDefault 0
+
+expect
+    out = parseSingleNumber "Time:      7  15   30"
+
+    out == 71530
