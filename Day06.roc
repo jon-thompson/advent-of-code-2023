@@ -88,3 +88,8 @@ expect
     out = part1 sample
 
     out == 288
+
+expect 
+    out = part1 input
+
+    out == 131376
