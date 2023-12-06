@@ -117,7 +117,23 @@ expect
 
 parseSingleRace : Str -> Race
 parseSingleRace = \str ->
-    { time: 0, recordDistance: 0 }
+    numbers =
+        str
+            |> Str.split "\n"
+            |> List.map parseSingleNumber
+
+    time = 
+        numbers
+            |> List.first
+            |> Result.withDefault 0
+
+
+    recordDistance = 
+        numbers
+            |> List.last
+            |> Result.withDefault 0
+
+    { time, recordDistance }
 
 
 expect
