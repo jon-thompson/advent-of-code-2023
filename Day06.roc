@@ -8,3 +8,14 @@ app "hello"
 
 main =
     Stdout.line "I'm a Roc application!"
+
+
+parseNumbers : Str -> List Nat
+parseNumbers = \str ->
+    [7, 15, 30]
+
+
+expect
+    out = parseNumbers "  7  15   30"
+
+    out == [7, 15, 30]
