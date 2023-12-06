@@ -29,7 +29,24 @@ Race : { time : Nat, recordDistance : Nat }
 
 parseRaces : Str -> List Race
 parseRaces = \str ->
-    []
+    numberLines =
+        str
+            |> Str.split "\n"
+            |> List.map parseNumbers
+
+    times = 
+        numberLines
+            |> List.first
+            |> Result.withDefault []
+
+
+    recordDistances = 
+        numberLines
+            |> List.last
+            |> Result.withDefault []
+
+    List.map2 times recordDistances (\time, recordDistance ->
+        { time, recordDistance })
 
 
 expect
