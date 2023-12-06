@@ -113,3 +113,14 @@ expect
     out = parseSingleNumber "Time:      7  15   30"
 
     out == 71530
+
+
+parseSingleRace : Str -> Race
+parseSingleRace = \str ->
+    { time: 0, recordDistance: 0 }
+
+
+expect
+    out = parseSingleRace sample
+
+    out == { time: 71530, recordDistance: 940200 }
