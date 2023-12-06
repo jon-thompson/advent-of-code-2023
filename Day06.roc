@@ -57,3 +57,12 @@ expect
         , { time: 15, recordDistance: 40 }
         , { time: 30, recordDistance: 200 }
         ]
+
+countWaysToBeatRecord : Race -> Nat
+countWaysToBeatRecord = \race ->
+    0
+
+expect
+    out = countWaysToBeatRecord { time: 7, recordDistance: 9 }
+
+    out == 4
