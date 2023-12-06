@@ -79,7 +79,10 @@ expect
 
 part1 : Str -> Nat
 part1 = \str ->
-    0
+    str
+        |> parseRaces
+        |> List.map countWaysToBeatRecord
+        |> List.product
 
 expect 
     out = part1 sample
