@@ -18,7 +18,25 @@ parseNumbers = \str ->
         |> List.keepOks Str.toNat
 
 
+
 expect
     out = parseNumbers "  7  15   30"
 
     out == [7, 15, 30]
+
+
+Race : { time : Nat, recordDistance : Nat }
+
+parseRaces : Str -> List Race
+parseRaces = \str ->
+    []
+
+
+expect
+    out = parseRaces sample
+    
+    out == 
+        [ { time: 7, recordDistance: 9 }
+        , { time: 15, recordDistance: 40 }
+        , { time: 30, recordDistance: 200 }
+        ]
