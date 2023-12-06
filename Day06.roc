@@ -12,7 +12,10 @@ main =
 
 parseNumbers : Str -> List Nat
 parseNumbers = \str ->
-    [7, 15, 30]
+    str
+        |> Str.split " "
+        |> List.map Str.trim
+        |> List.keepOks Str.toNat
 
 
 expect
