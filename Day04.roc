@@ -10,7 +10,7 @@ main =
     Stdout.line "I'm a Roc application!"
 
 
-Card : { winning: List Nat, have: List Nat }
+Card : { index : Nat, winning: List Nat, have: List Nat }
 
 scoreCards = \str ->
     str
@@ -30,21 +30,36 @@ scoreCard = \str ->
 
 wins : Str -> Nat
 wins = \str ->
-    card = parseCard str
+    str
+        |> parseCard
+        |> winsCard
 
+winsCard : Card -> Nat
+winsCard = \card ->
     card.have
         |> List.countIf (\n -> List.contains card.winning n)
 
 
 parseCard : Str -> Card
 parseCard = \str ->
+    index : Nat
+    index =
+        str
+            |> Str.split ": "
+            |> List.first
+            |> Result.map (\head -> Str.split head " ")
+            |> Result.try List.last
+            |> Result.try Str.toNat
+            |> Result.withDefault 0
+
     numbers = str
         |> Str.split ": "
         |> List.last
         |> Result.map (\s -> Str.split s " | ")
         |> Result.withDefault []
 
-    { winning:
+    { index: index
+    , winning:
         numbers
             |> List.first
             |> Result.map parseNumbers
@@ -67,7 +82,7 @@ parseNumbers = \str ->
 expect
     out = parseCard "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53"
 
-    out == { winning: [41, 48, 83, 86, 17], have: [83, 86, 6, 31, 17, 9, 48, 53] }
+    out == { index: 1, winning: [41, 48, 83, 86, 17], have: [83, 86, 6, 31, 17, 9, 48, 53] }
 
 expect
     out = scoreCard "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53"
@@ -126,11 +141,26 @@ expect
 # Walk thru list of cards, count how many have a winning number, tack on new cards from winners
 countCards : Str -> Nat
 countCards = \str ->
-    cards = str
-        |> Str.split "\n"
-        |> List.map parseCard
+    cards =
+        str
+            |> Str.split "\n"
+            |> List.map parseCard
+    
+    cards
+        |> List.walkUntil { count: 0, cardsLeft: [] } (\{ count, cardsLeft }, card ->
+            newCardsLeft = List.concat cardsLeft (wonCards cards card)
+            
+            if List.isEmpty newCardsLeft then
+                Break { count: count + 1, cardsLeft }
+            else
+                Continue { count: count + 1, cardsLeft: newCardsLeft }
+        )
+        |> .count
 
-    30
+
+wonCards : List Card, Card -> List Card
+wonCards = \allCards, card ->
+    List.sublist allCards { start: card.index, len: winsCard card }
 
 expect
     out = countCards sample
