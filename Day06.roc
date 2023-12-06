@@ -140,3 +140,15 @@ expect
     out = parseSingleRace sample
 
     out == { time: 71530, recordDistance: 940200 }
+
+
+part2 : Str -> Nat
+part2 = \str ->
+    str
+        |> parseSingleRace
+        |> countWaysToBeatRecord
+
+expect 
+    out = part2 sample
+
+    out == 71503
