@@ -60,7 +60,16 @@ expect
 
 countWaysToBeatRecord : Race -> Nat
 countWaysToBeatRecord = \race ->
-    0
+    List.range { start: At 1, end: Before race.time }
+        |> List.walk 0 (\count, timeToHold ->
+            speed = timeToHold
+            timeToRace = race.time - timeToHold
+            distance = speed * timeToRace
+
+            if distance > race.recordDistance
+            then count + 1
+            else count
+        )
 
 expect
     out = countWaysToBeatRecord { time: 7, recordDistance: 9 }
