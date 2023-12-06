@@ -147,15 +147,12 @@ countCards = \str ->
             |> List.map parseCard
     
     cards
-        |> List.walkUntil { count: 0, cardsLeft: [] } (\{ count, cardsLeft }, card ->
-            newCardsLeft = List.concat cardsLeft (wonCards cards card)
-            
-            if List.isEmpty newCardsLeft then
-                Break { count: count + 1, cardsLeft }
-            else
-                Continue { count: count + 1, cardsLeft: newCardsLeft }
-        )
-        |> .count
+        |> List.map (\c -> countEmUp cards c)
+        |> List.sum
+
+countEmUp : List Card, Card -> Nat
+countEmUp = \allCards, card ->
+    1 + List.sum (wonCards allCards card |> List.map (\c -> countEmUp allCards c))
 
 
 wonCards : List Card, Card -> List Card
