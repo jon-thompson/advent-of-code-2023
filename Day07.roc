@@ -198,7 +198,7 @@ getTypeWithJokers = \hand ->
 expect
     out = cardValueWithJoker "J"
 
-    out == 0
+    out == 1
 
 
 cardValueWithJoker : Str -> Nat
@@ -207,7 +207,7 @@ cardValueWithJoker = \card ->
         "A" -> 14
         "K" -> 13
         "Q" -> 12
-        "J" -> 0
+        "J" -> 1
         "T" -> 10
         _ -> Str.toNat card |> Result.withDefault 0
 
