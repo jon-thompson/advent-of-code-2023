@@ -150,3 +150,46 @@ part1 = \str ->
             hand.bid * (index + 1)
         )
         |> List.sum
+
+
+expect
+    out = getTypeWithJokers { cards: "KTJJT", bid: 765 }
+
+    out == FourOfAKind
+
+getTypeWithJokers : Hand -> Type
+getTypeWithJokers = \hand ->
+    countsByCard =
+        hand.cards
+            |> Str.graphemes
+            |> List.walk (Dict.empty {}) (\dict, card ->
+                Dict.update dict card (\possibleCount ->
+                    when possibleCount is
+                        Missing -> Present 1
+                        Present count -> Present (count + 1)
+                )
+            )
+
+    jokerCount = Dict.get countsByCard "J" |> Result.withDefault 0
+
+    countsByCardWithoutJokers =
+        Dict.remove countsByCard "J"
+
+    counts =
+        countsByCardWithoutJokers
+            |> Dict.values
+            |> List.sortDesc
+
+    countsWithJokers =
+        List.update counts 0 (\count -> count + jokerCount)
+
+    when countsWithJokers is
+        [1, 1, 1, 1, 1] -> HighCard
+        [2, 1, 1, 1] -> OnePair
+        [2, 2, 1] -> TwoPair
+        [3, 1, 1] -> ThreeOfAKind
+        [3, 2] -> FullHouse
+        [4, 1] -> FourOfAKind
+        [5] -> FiveOfAKind
+        _ -> HighCard
+    
