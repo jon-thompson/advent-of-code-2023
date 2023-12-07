@@ -193,3 +193,18 @@ getTypeWithJokers = \hand ->
         [5] -> FiveOfAKind
         _ -> HighCard
     
+expect
+    out = cardValueWithJoker "J"
+
+    out == 0
+
+
+cardValueWithJoker : Str -> Nat
+cardValueWithJoker = \card ->
+    when card is
+        "A" -> 14
+        "K" -> 13
+        "Q" -> 12
+        "J" -> 0
+        "T" -> 10
+        _ -> Str.toNat card |> Result.withDefault 0
