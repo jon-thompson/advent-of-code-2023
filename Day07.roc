@@ -180,7 +180,10 @@ getTypeWithJokers = \hand ->
             |> List.sortDesc
 
     countsWithJokers =
-        List.update counts 0 (\count -> count + jokerCount)
+        if List.isEmpty counts then
+            [jokerCount]
+        else
+            List.update counts 0 (\count -> count + jokerCount)
 
     when countsWithJokers is
         [1, 1, 1, 1, 1] -> HighCard
@@ -228,7 +231,7 @@ part2 = \str ->
 expect
     out = part2 puzzle
 
-    out == 250457986
+    out == 250057090
 
 expect
     out = sortByRank 
@@ -248,3 +251,8 @@ expect
         , { cards: "QQQJA", bid: 483 }
         , { cards: "KTJJT", bid: 220 }
         ]
+
+expect
+    out = getTypeWithJokers { cards: "JJJJJ", bid: 765 }
+
+    out == FiveOfAKind
