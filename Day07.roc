@@ -100,25 +100,22 @@ sortByRank = \hands, cardValuer, getTypeD ->
             aTypeRank = List.findFirstIndex types (\t -> t == getTypeD a) |> Result.withDefault 0
             bTypeRank = List.findFirstIndex types (\t -> t == getTypeD b) |> Result.withDefault 0
 
-            if aTypeRank > bTypeRank then 
-                GT
-            else if aTypeRank < bTypeRank then 
-                LT
-            else # type ranks equal
-                List.map2 (Str.graphemes a.cards) (Str.graphemes b.cards) Pair
-                    |> List.findFirst (\pair ->
-                        when pair is
-                            Pair aCard bCard ->
-                                aCard != bCard
-                    )
-                    |> Result.map (\pair ->
-                        when pair is
-                            Pair aCard bCard ->
-                                if cardValuer aCard > cardValuer bCard then
-                                    GT
-                                else LT
-                    )
-                    |> Result.withDefault EQ
+            when Num.compare aTypeRank bTypeRank is 
+                GT -> GT
+                LT -> LT
+                EQ -> 
+                    List.map2 (Str.graphemes a.cards) (Str.graphemes b.cards) Pair
+                        |> List.findFirst (\pair ->
+                            when pair is
+                                Pair aCard bCard ->
+                                    aCard != bCard
+                        )
+                        |> Result.map (\pair ->
+                            when pair is
+                                Pair aCard bCard ->
+                                    Num.compare (cardValuer aCard) (cardValuer bCard)
+                        )
+                        |> Result.withDefault EQ
         )
 
 cardValue : Str -> Nat
