@@ -100,6 +100,31 @@ sortByRank = \hands ->
 
             if aTypeRank > bTypeRank then 
                 GT
-            else
+            else if aTypeRank < bTypeRank then 
                 LT
+            else # type ranks equal
+                List.map2 (Str.graphemes a.cards) (Str.graphemes b.cards) Pair
+                    |> List.findFirst (\pair ->
+                        when pair is
+                            Pair aCard bCard ->
+                                aCard != bCard
+                    )
+                    |> Result.map (\pair ->
+                        when pair is
+                            Pair aCard bCard ->
+                                if cardValue aCard > cardValue bCard then
+                                    GT
+                                else LT
+                    )
+                    |> Result.withDefault EQ
         )
+
+cardValue : Str -> Nat
+cardValue = \card ->
+    when card is
+        "A" -> 14
+        "K" -> 13
+        "Q" -> 12
+        "J" -> 11
+        "T" -> 10
+        _ -> Str.toNat card |> Result.withDefault 0
