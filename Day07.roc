@@ -15,6 +15,9 @@ expect
 
     out == { cards: "32T3K", bid: 765 }
 
+Type: [HighCard , OnePair , TwoPair , ThreeOfAKind ,  FullHouse , FourOfAKind , FiveOfAKind]
+
+types : List Type
 types = [HighCard , OnePair , TwoPair , ThreeOfAKind ,  FullHouse , FourOfAKind , FiveOfAKind]
 
 Hand : { cards: Str, bid: Nat }
@@ -40,6 +43,32 @@ expect
 
     out == OnePair
 
+expect
+    out = getType { cards: "32T1K", bid: 765 }
 
+    out == HighCard
+
+getType : Hand -> Type
 getType = \hand ->
-    OnePair
+    counts =
+        hand.cards
+            |> Str.graphemes
+            |> List.walk (Dict.empty {}) (\dict, card ->
+                Dict.update dict card (\possibleCount ->
+                    when possibleCount is
+                        Missing -> Present 1
+                        Present count -> Present (count + 1)
+                )
+            )
+            |> Dict.values
+            |> List.sortDesc
+
+    when counts is
+        [1, 1, 1, 1, 1] -> HighCard
+        [2, 1, 1, 1] -> OnePair
+        [2, 2, 1] -> TwoPair
+        [3, 1, 1] -> ThreeOfAKind
+        [3, 2] -> FullHouse
+        [4, 1] -> FourOfAKind
+        [5] -> FiveOfAKind
+        _ -> HighCard
