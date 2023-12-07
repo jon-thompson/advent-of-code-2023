@@ -232,3 +232,22 @@ expect
     out = part2 puzzle
 
     out == 250457986
+
+expect
+    out = sortByRank 
+        [ { cards: "32T3K", bid: 765 }
+        , { cards: "T55J5", bid: 684 }
+        , { cards: "KK677", bid: 28 }
+        , { cards: "KTJJT", bid: 220 }
+        , { cards: "QQQJA", bid: 483 }
+        ]
+        cardValueWithJoker
+        getTypeWithJokers
+
+    out == 
+        [ { cards: "32T3K", bid: 765 }
+        , { cards: "KK677", bid: 28 }
+        , { cards: "T55J5", bid: 684 }
+        , { cards: "QQQJA", bid: 483 }
+        , { cards: "KTJJT", bid: 220 }
+        ]
