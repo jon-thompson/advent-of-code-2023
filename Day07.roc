@@ -128,3 +128,25 @@ cardValue = \card ->
         "J" -> 11
         "T" -> 10
         _ -> Str.toNat card |> Result.withDefault 0
+
+
+expect
+    out = part1 sample
+
+    out == 6440
+
+expect
+    out = part1 puzzle
+
+    out == 248812215
+
+part1 : Str -> Nat
+part1 = \str ->
+    str
+        |> Str.split "\n"
+        |> List.map parseHand
+        |> sortByRank
+        |> List.mapWithIndex (\hand, index ->
+            hand.bid * (index + 1)
+        )
+        |> List.sum
