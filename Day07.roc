@@ -15,6 +15,8 @@ expect
 
     out == { cards: "32T3K", bid: 765 }
 
+types = [HighCard , OnePair , TwoPair , ThreeOfAKind ,  FullHouse , FourOfAKind , FiveOfAKind]
+
 Hand : { cards: Str, bid: Nat }
 
 parseHand : Str -> Hand
@@ -32,3 +34,12 @@ parseHand = \str ->
             |> Result.withDefault 0
 
     }
+
+expect
+    out = getType { cards: "32T3K", bid: 765 }
+
+    out == OnePair
+
+
+getType = \hand ->
+    OnePair
