@@ -29,5 +29,6 @@ EOF
 
 # Replace any roc filename on the 'roc test' line with 'Day${day_number}.roc' in ./.vscode/tasks.json
 sed -i "" "/roc test/s/Day[0-9]*\.roc/Day${day_number}.roc/" ./.vscode/tasks.json
+sed -i "" "/roc test/s/Day[0-9]*\.roc/Day${day_number}.roc/" ./testWatch.sh
 
 echo "Files created successfully"

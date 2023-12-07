@@ -8,3 +8,9 @@ app "hello"
 
 main =
     Stdout.line "I'm a Roc application!"
+
+
+expect
+    out = parseHand "32T3K 765"
+
+    out == { cards: "32T3K", bid: 765 }

@@ -7,6 +7,11 @@
             "label": "test",
             "type": "shell",
             "command": "roc test Day07.roc"
+        },
+        {
+            "label": "test:watch",
+            "type": "shell",
+            "command": "./testWatch.sh"
         }
     ]
 }
