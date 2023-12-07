@@ -95,7 +95,10 @@ sortByRank : List Hand -> List Hand
 sortByRank = \hands ->
     hands
         |> List.sortWith (\a, b ->
-            if a.bid > b.bid then 
+            aTypeRank = List.findFirstIndex types (\t -> t == getType a) |> Result.withDefault 0
+            bTypeRank = List.findFirstIndex types (\t -> t == getType b) |> Result.withDefault 0
+
+            if aTypeRank > bTypeRank then 
                 GT
             else
                 LT
