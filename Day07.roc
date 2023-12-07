@@ -83,6 +83,7 @@ expect
         , { cards: "QQQJA", bid: 483 }
         ]
         cardValue
+        getType
 
     out == 
         [ { cards: "32T3K", bid: 765 }
@@ -92,12 +93,12 @@ expect
         , { cards: "QQQJA", bid: 483 }
         ]
 
-sortByRank : List Hand, (Str -> Nat) -> List Hand
-sortByRank = \hands, cardValuer ->
+sortByRank : List Hand, (Str -> Nat), (Hand -> Type) -> List Hand
+sortByRank = \hands, cardValuer, getTypeD ->
     hands
         |> List.sortWith (\a, b ->
-            aTypeRank = List.findFirstIndex types (\t -> t == getType a) |> Result.withDefault 0
-            bTypeRank = List.findFirstIndex types (\t -> t == getType b) |> Result.withDefault 0
+            aTypeRank = List.findFirstIndex types (\t -> t == getTypeD a) |> Result.withDefault 0
+            bTypeRank = List.findFirstIndex types (\t -> t == getTypeD b) |> Result.withDefault 0
 
             if aTypeRank > bTypeRank then 
                 GT
@@ -146,7 +147,7 @@ part1 = \str ->
     str
         |> Str.split "\n"
         |> List.map parseHand
-        |> sortByRank cardValue
+        |> sortByRank cardValue getType
         |> List.mapWithIndex (\hand, index ->
             hand.bid * (index + 1)
         )
@@ -209,3 +210,19 @@ cardValueWithJoker = \card ->
         "J" -> 0
         "T" -> 10
         _ -> Str.toNat card |> Result.withDefault 0
+
+# expect
+#     out = part2 sample
+
+#     out == 5905
+
+# part2 : Str -> Nat
+# part2 = \str ->
+#     str
+#         |> Str.split "\n"
+#         |> List.map parseHand
+#         |> sortByRank cardValueWithJoker
+#         |> List.mapWithIndex (\hand, index ->
+#             hand.bid * (index + 1)
+#         )
+#         |> List.sum
