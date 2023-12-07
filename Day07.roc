@@ -211,18 +211,24 @@ cardValueWithJoker = \card ->
         "T" -> 10
         _ -> Str.toNat card |> Result.withDefault 0
 
-# expect
-#     out = part2 sample
+expect
+    out = part2 sample
 
-#     out == 5905
+    out == 5905
 
-# part2 : Str -> Nat
-# part2 = \str ->
-#     str
-#         |> Str.split "\n"
-#         |> List.map parseHand
-#         |> sortByRank cardValueWithJoker
-#         |> List.mapWithIndex (\hand, index ->
-#             hand.bid * (index + 1)
-#         )
-#         |> List.sum
+part2 : Str -> Nat
+part2 = \str ->
+    str
+        |> Str.split "\n"
+        |> List.map parseHand
+        |> sortByRank cardValueWithJoker getTypeWithJokers
+        |> List.mapWithIndex (\hand, index ->
+            hand.bid * (index + 1)
+        )
+        |> List.sum
+
+
+expect
+    out = part2 puzzle
+
+    out == 250457986
