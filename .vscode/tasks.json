@@ -6,7 +6,7 @@
         {
             "label": "test",
             "type": "shell",
-            "command": "roc test Day06.roc"
+            "command": "roc test Day07.roc"
         }
     ]
 }
