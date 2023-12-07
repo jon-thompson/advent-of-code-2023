@@ -72,3 +72,31 @@ getType = \hand ->
         [4, 1] -> FourOfAKind
         [5] -> FiveOfAKind
         _ -> HighCard
+
+
+expect
+    out = sortByRank 
+        [ { cards: "32T3K", bid: 765 }
+        , { cards: "T55J5", bid: 684 }
+        , { cards: "KK677", bid: 28 }
+        , { cards: "KTJJT", bid: 220 }
+        , { cards: "QQQJA", bid: 483 }
+        ]
+
+    out == 
+        [ { cards: "32T3K", bid: 765 }
+        , { cards: "KTJJT", bid: 220 }
+        , { cards: "KK677", bid: 28 }
+        , { cards: "T55J5", bid: 684 }
+        , { cards: "QQQJA", bid: 483 }
+        ]
+
+sortByRank : List Hand -> List Hand
+sortByRank = \hands ->
+    hands
+        |> List.sortWith (\a, b ->
+            if a.bid > b.bid then 
+                GT
+            else
+                LT
+        )
