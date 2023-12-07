@@ -14,3 +14,21 @@ expect
     out = parseHand "32T3K 765"
 
     out == { cards: "32T3K", bid: 765 }
+
+Hand : { cards: Str, bid: Nat }
+
+parseHand : Str -> Hand
+parseHand = \str ->
+    parts = Str.split str " "
+
+    { cards:
+        parts
+            |> List.first
+            |> Result.withDefault ""
+    , bid:
+        parts
+            |> List.last
+            |> Result.try Str.toNat
+            |> Result.withDefault 0
+
+    }
