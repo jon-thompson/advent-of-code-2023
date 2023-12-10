@@ -9,7 +9,9 @@ import Pages.Script as Script exposing (Script)
 run : Script
 run =
     Script.withoutCliOptions
-        (Script.log "Hello from elm-pages Scripts!")
+        (readFile "Day07sample.txt"
+            |> BackendTask.andThen Script.log
+        )
 
 
 readFile : String -> BackendTask FatalError String
