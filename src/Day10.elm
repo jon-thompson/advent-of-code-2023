@@ -1,6 +1,22 @@
-module Main exposing (..)
+module Day10 exposing (..)
 
-import Html exposing (text)
+import Cli
+import Pages.Script exposing (Script)
 
-main =
-    text "I'm an Elm application!"
+
+run : Script
+run =
+    Cli.runSolvers
+        { part1 = part1
+        , part2 = part2
+        }
+
+
+part1 : String -> Int
+part1 input =
+    0
+
+
+part2 : String -> Int
+part2 input =
+    0

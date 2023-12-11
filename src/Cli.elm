@@ -1,4 +1,4 @@
-module Cli exposing (run)
+module Cli exposing (run, runSolvers)
 
 import BackendTask exposing (BackendTask)
 import BackendTask.File
