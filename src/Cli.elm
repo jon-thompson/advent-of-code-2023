@@ -9,8 +9,19 @@ import Pages.Script as Script exposing (Script)
 run : Script
 run =
     Script.withoutCliOptions
-        (readFile "Day07sample.txt"
-            |> BackendTask.andThen Script.log
+        (BackendTask.combine
+            [ readFile "Day07sample.txt"
+            , readFile "Day07puzzle.txt"
+            ]
+            |> BackendTask.andThen
+                (\files ->
+                    case files of
+                        [ sample, input ] ->
+                            Script.log sample
+
+                        _ ->
+                            Script.log "Wrong number of files loaded"
+                )
         )
 
 
