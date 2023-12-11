@@ -35,9 +35,29 @@ main =
     Stdout.line "I'm a Roc application!"
 EOF
 
-    # Replace any roc filename on the 'roc test' line with 'Day${day_number}.roc' in ./.vscode/tasks.json
-    sed -i "" "/roc test/s/Day[0-9]*\.roc/Day${day_number}.roc/" ./.vscode/tasks.json
-    sed -i "" "/roc test/s/Day[0-9]*\.roc/Day${day_number}.roc/" ./testWatch.sh
+    # Replace tasks with Roc commands in ./.vscode/tasks.json
+    cat << EOF > ./.vscode/tasks.json
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "test",
+            "type": "shell",
+            "command": "roc test Day${day_number}.roc",
+        },
+        {
+            "label": "test:watch",
+            "type": "shell",
+            "command": "./testWatch.sh"
+        },
+        {
+            "label": "run",
+            "type": "shell",
+            "command": "roc test Day${day_number}.roc",
+        }
+    ]
+}
+EOF
 
 elif [[ "$file_type" == "elm" ]]; then
     cat << EOF > "./src/Day${day_number}.elm"
@@ -63,6 +83,30 @@ part1 input =
 part2 : String -> Int
 part2 input =
     0
+EOF
+
+    # Replace tasks with Roc commands in ./.vscode/tasks.json
+    cat << EOF > ./.vscode/tasks.json
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "test",
+            "type": "shell",
+            "command": "elm-test 'src/Day${day_number}.elm'",
+        },
+        {
+            "label": "test:watch",
+            "type": "shell",
+            "command": "elm-test --watch 'src/Day${day_number}.elm'"
+        },
+        {
+            "label": "run",
+            "type": "shell",
+            "command": "npx elm-pages run src/Day${day_number}.elm",
+        }
+    ]
+}
 EOF
 fi
 
