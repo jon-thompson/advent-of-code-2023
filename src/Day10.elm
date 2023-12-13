@@ -1,7 +1,9 @@
 module Day10 exposing (..)
 
 import Cli
+import Expect
 import Pages.Script exposing (Script)
+import Test exposing (Test, describe, test)
 
 
 run : Script
@@ -20,3 +22,10 @@ part1 input =
 part2 : String -> Int
 part2 input =
     0
+
+
+suite : Test
+suite =
+    describe "Day 10"
+        [ test "test something" <| \_ -> Expect.equal 0 0
+        ]

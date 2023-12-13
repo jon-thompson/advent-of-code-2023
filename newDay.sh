@@ -63,8 +63,9 @@ elif [[ "$file_type" == "elm" ]]; then
     cat << EOF > "./src/Day${day_number}.elm"
 module Day${day_number} exposing (..)
 
-import Cli
+import Expect
 import Pages.Script exposing (Script)
+import Test exposing (Test, describe, test)
 
 
 run : Script
@@ -83,6 +84,14 @@ part1 input =
 part2 : String -> Int
 part2 input =
     0
+
+
+suite : Test
+suite =
+    describe "Day ${day_number}"
+        [ test "test something" <| \_ -> Expect.equal 0 0
+        ]
+
 EOF
 
     # Replace tasks with Roc commands in ./.vscode/tasks.json
