@@ -155,7 +155,12 @@ startingPosition input =
 
 areConnected : ( Position, Maybe Pipe ) -> ( Position, Maybe Pipe ) -> Bool
 areConnected ( ( x1, y1 ), maybePipe1 ) ( ( x2, y2 ), maybePipe2 ) =
-    True
+    case ( maybePipe1, maybePipe2 ) of
+        ( Just pipe1, Just pipe2 ) ->
+            True
+
+        _ ->
+            False
 
 
 suite : Test
@@ -183,11 +188,17 @@ L|7|||"""
                     |> pipeToCardinalDirections
                     |> Expect.equal [ North, East ]
         , describe "areConnected"
-            [ test "example" <|
+            [ test "connected" <|
                 \_ ->
                     areConnected
                         ( ( 0, 0 ), Just Starting )
                         ( ( 0, 1 ), Just Vertical )
                         |> Expect.equal True
+            , test "missing pipe" <|
+                \_ ->
+                    areConnected
+                        ( ( 0, 0 ), Nothing )
+                        ( ( 0, 1 ), Just Vertical )
+                        |> Expect.equal False
             ]
         ]
