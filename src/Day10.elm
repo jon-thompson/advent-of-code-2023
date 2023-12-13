@@ -81,6 +81,38 @@ charToMaybePipe char =
             Nothing
 
 
+type Direction
+    = North
+    | East
+    | South
+    | West
+
+
+pipeToCardinalDirections : Pipe -> List Direction
+pipeToCardinalDirections pipe =
+    case pipe of
+        Vertical ->
+            [ North, South ]
+
+        Horizontal ->
+            [ East, West ]
+
+        NorthEast ->
+            [ North, East ]
+
+        NorthWest ->
+            [ North, West ]
+
+        SouthWest ->
+            [ South, West ]
+
+        SouthEast ->
+            [ South, East ]
+
+        Starting ->
+            Debug.todo "Starting pipe has no cardinal directions"
+
+
 parseGrid : String -> Grid
 parseGrid input =
     input
@@ -140,4 +172,9 @@ suite =
 L|7|||"""
                     |> startingPosition
                     |> Expect.equal ( 4, 1 )
+        , test "pipeToCardinalDirections" <|
+            \_ ->
+                NorthEast
+                    |> pipeToCardinalDirections
+                    |> Expect.equal [ North, East ]
         ]
