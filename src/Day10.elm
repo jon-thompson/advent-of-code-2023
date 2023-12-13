@@ -153,6 +153,11 @@ startingPosition input =
            )
 
 
+areConnected : ( Position, Maybe Pipe ) -> ( Position, Maybe Pipe ) -> Bool
+areConnected ( ( x1, y1 ), maybePipe1 ) ( ( x2, y2 ), maybePipe2 ) =
+    True
+
+
 suite : Test
 suite =
     describe "Day 10"
@@ -177,4 +182,12 @@ L|7|||"""
                 NorthEast
                     |> pipeToCardinalDirections
                     |> Expect.equal [ North, East ]
+        , describe "areConnected"
+            [ test "example" <|
+                \_ ->
+                    areConnected
+                        ( ( 0, 0 ), Just Starting )
+                        ( ( 0, 1 ), Just Vertical )
+                        |> Expect.equal True
+            ]
         ]
