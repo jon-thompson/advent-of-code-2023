@@ -24,11 +24,49 @@ part2 input =
     0
 
 
-parseGrid : String -> List (List Char)
+type alias Grid =
+    List (List Char)
+
+
+type alias Position =
+    ( Int, Int )
+
+
+parseGrid : String -> Grid
 parseGrid input =
     input
         |> String.lines
         |> List.map String.toList
+
+
+startingPosition : Grid -> Position
+startingPosition grid =
+    let
+        positionsAndChars : List ( Position, Char )
+        positionsAndChars =
+            grid
+                |> List.indexedMap
+                    (\y row ->
+                        row
+                            |> List.indexedMap
+                                (\x char ->
+                                    ( ( x, y ), char )
+                                )
+                    )
+                |> List.concat
+    in
+    positionsAndChars
+        |> List.filter (\( _, char ) -> char == 'S')
+        |> List.head
+        |> Maybe.map (\( pos, _ ) -> pos)
+        |> (\maybePos ->
+                case maybePos of
+                    Just pos ->
+                        pos
+
+                    Nothing ->
+                        Debug.todo "No starting position found"
+           )
 
 
 suite : Test
@@ -43,4 +81,12 @@ suite =
                         [ [ '7', '-', 'F' ]
                         , [ '.', 'F', 'J' ]
                         ]
+        , test "startingPosition" <|
+            \_ ->
+                [ [ '7', '-', 'F' ]
+                , [ 'S', 'F', 'J' ]
+                , [ '.', '7', 'R' ]
+                ]
+                    |> startingPosition
+                    |> Expect.equal ( 0, 1 )
         ]
