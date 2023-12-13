@@ -89,7 +89,9 @@ part2 input =
 suite : Test
 suite =
     describe "Day ${day_number}"
-        [ test "test something" <| \_ -> Expect.equal 0 0
+        [ test "test something" <|
+            \_ -> 
+                Expect.equal 0 0
         ]
 
 EOF

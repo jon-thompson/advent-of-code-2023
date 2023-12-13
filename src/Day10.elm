@@ -24,8 +24,23 @@ part2 input =
     0
 
 
+parseGrid : String -> List (List Char)
+parseGrid input =
+    input
+        |> String.lines
+        |> List.map String.toList
+
+
 suite : Test
 suite =
     describe "Day 10"
-        [ test "test something" <| \_ -> Expect.equal 0 0
+        [ test "parseGrid" <|
+            \_ ->
+                """7-F
+.FJ"""
+                    |> parseGrid
+                    |> Expect.equal
+                        [ [ '7', '-', 'F' ]
+                        , [ '.', 'F', 'J' ]
+                        ]
         ]
